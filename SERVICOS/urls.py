@@ -17,7 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-
+from core.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sobre/', SobreTemplateView.as_view(), name='sobre_template_view'),
+    path('usuario/criar/', UsuarioCreateView.as_view(), name='usuario_create_view'),
+    path('prestador/criar/', PrestadorCreateView.as_view(), name='prestador_create_view'),
+    path('prestador/listar/', PrestadorListView.as_view(), name='prestador_list_view'),
+    path('prestador/<int:pk>/detalhe/', PrestadorDetailView.as_view(), name='prestador_detail_view'),
+    path('dashboard/', DashboardView.as_view(), name='dashboard_view'),
+    path('login/', LoginView.as_view(), name='login_view')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)   
