@@ -4,3 +4,6 @@ from core.models import *
 
 admin.site.register(Prestador)
 admin.site.register(Endereco)
+admin.site.register(Avaliacao)
+admin.site.register(Servico)
+
