@@ -8,7 +8,7 @@ class Prestador(models.Model):
     ramo = models.CharField(max_length=64)
     whatsapp = models.CharField(max_length=15)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    foto_perfil = models.ImageField()
+    foto_perfil = models.ImageField(null=True, blank=True)
                 
     class Meta:
         verbose_name = 'Prestador'

@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect, reverse
 from django.contrib import auth, messages
-
+from django.contrib.auth import authenticate, login
+from core.forms import *
 # Create your views here.
 from core.models import *
 class SobreTemplateView(TemplateView):
@@ -20,8 +21,7 @@ class UsuarioCreateView(CreateView):
     template_name = './usuario/criar.html'
     success_url = reverse_lazy('sobre_template_view')
 
-
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required(login_url='login_view'), name='dispatch')
 class PrestadorCreateView(CreateView):
     model = Prestador
     template_name = './prestador/criar.html'
@@ -29,9 +29,13 @@ class PrestadorCreateView(CreateView):
     success_url = reverse_lazy('sobre_template_view')
 
     def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.user = self.request.user
-        return super(PrestadorCreateView, self).form_valid(form)
+        form = form.save(commit=False)
+        form.user = self.request.user
+        foto_perfil = self.request.FILES.get('id_foto_perfil')
+        form.foto_perfil = foto_perfil
+        form.save()
+        return render(self.request, './sobre/sobre.html', {})
+
 
 class PrestadorListView(ListView):
     model = Prestador
@@ -62,16 +66,17 @@ class LoginView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            return render('dashboard/index.html')
+            return render(request, 'dashboard/index.html')
         return render(request, self.template_name)
     
     def post(self, request):
         post = request.POST
         username = post.get('username')
         password = post.get('password')
-        user = auth.authenticate(request, username=username, password=password)
-
+        user = authenticate(request, username=username, password=password)
         if user is not None:
-            auth.login(request, user)
+            login(request, user)
             return redirect('dashboard_view')
-        messages.info(request, 'Email ou senha incorretos')
+
+        context = {'erro':'Email ou senha incorretos'}
+        return render(request, self.template_name, context)
