@@ -24,7 +24,10 @@ urlpatterns = [
     path('usuario/criar/', UsuarioCreateView.as_view(), name='usuario_create_view'),
     path('prestador/criar/', PrestadorCreateView.as_view(), name='prestador_create_view'),
     path('prestador/listar/', PrestadorListView.as_view(), name='prestador_list_view'),
+    path('prestador/<int:pk>/atualizar/', PrestadorUpdateView.as_view(), name='prestador_update_view'),
     path('prestador/<int:pk>/detalhe/', PrestadorDetailView.as_view(), name='prestador_detail_view'),
     path('dashboard/', DashboardView.as_view(), name='dashboard_view'),
-    path('login/', LoginView.as_view(), name='login_view')
+    path('login/', LoginView.as_view(), name='login_view'),
+    path('logout/', LogoutView.as_view(), name='logout_view')
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)   
