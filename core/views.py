@@ -111,7 +111,7 @@ class ServicoDeleteView(View):
 class ServicoListView(ListView):
     model = Servico
     template_name = './servico/listar.html'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['servicos'] = Servico.objects.all() 
