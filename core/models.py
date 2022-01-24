@@ -36,7 +36,7 @@ class Endereco(models.Model):
 class Servico(models.Model):
     nome = models.CharField(max_length=256)
     preco = models.DecimalField(max_digits=10,decimal_places=2)
-    descricao = models.TextField(max_length=1000)
+    descricao = models.CharField(max_length=1000)
     prestador = models.ForeignKey(Prestador, on_delete=models.CASCADE)
 
     class Meta:
@@ -44,7 +44,7 @@ class Servico(models.Model):
         verbose_name_plural = 'Serviços'
     
     def __str__(self) -> str:
-        return (self.nome+' '+self.preco)
+        return (self.nome+' '+str(self.preco))
 
 class Avaliacao(models.Model):
     prestador = models.ForeignKey(Prestador, on_delete=models.CASCADE)

@@ -8,27 +8,26 @@
 <section class="py-5">
   <div class="container px-4 px-lg-5 mt-5">
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-      {% for prestador in prestadores %}
+      {% for servico in servicos %}
       <div class="col mb-5">
         <div class="card h-100">
-          <!-- Product image-->
-          <img class="card-img-top" src="{{prestador.foto_perfil.url}}" alt="Card image cap" />
           <!-- Product details-->
           <div class="card-body p-4">
             <div class="text-center">
               <!-- Product name-->
-              <h5 class="fw-bolder">{{prestador.nome}}</h5>
+              <h5 class="fw-bolder">{{servico.nome}}</h5>
               <!-- Product price-->
-              <p class="card-text">Setor: {{prestador.ramo}} </p>
-              <p class="card-text">Fone: {{prestador.whatsapp}} </p>
+              <p class="card-text">{{servico.prestador.nome}} </p>
+              <p class="card-text">{{servico.descricao}} </p>
+              <p class="card-text">Preço: {{servico.preco}} Fone: {{servico.prestador.whatsapp}} </p>
             </div>
           </div>
           <!-- Product actions-->
           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
             <div class="text-center"><a class="btn btn-outline-dark mt-auto"
-                href="{% url 'prestador_detail_view' prestador.id %}">Veja mais detalhes</a>
+                href="{% url 'prestador_detail_view' servico.id %}">Veja mais detalhes</a>
                 <a class="btn btn-outline-dark mt-2"
-                href="{% url 'prestador_detail_view' prestador.id %}">Chamar no zap</a>
+                href="{% url 'prestador_detail_view' servico.id %}">Chamar no zap</a>
             </div>
             
            </div>

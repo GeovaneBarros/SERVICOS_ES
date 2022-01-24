@@ -11,7 +11,13 @@
   </head>
   <body class="bg-dark">
     <div class="col d-flex justify-content-center">
+      
       <div class="card col-3">
+        {% if erro%}
+        <div class="alert alert-danger justify-content-center" role="alert">
+            {{erro}}
+        </div>
+        {% endif%}
         <div class="card-body col-12">
           <h2>Login</h2>
           <form method="post" class="row g-3">
@@ -28,6 +34,8 @@
               <button type="submit" class="btn btn-primary">Entrar</button>
             </div>
           </form>
+          <hr>
+          <center>Ainda não possui um casdastro? <a href="{% url 'usuario_create_view' %}">Clique aqui</a></center>
         </div>
       </div>
     </div>

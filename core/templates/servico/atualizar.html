@@ -12,29 +12,22 @@
     <div class="col d-flex justify-content-center" id="form_cadastro_prestador">
       <div class="card col-10">
         <div class="card-body">
-          <h2>Atualizar informações do prestador</h2>
+          <h2>Atualizar informações do serviço</h2>
           <hr>
           <form class="row g-3" method="post" enctype="multipart/form-data">
             {% csrf_token %} 
-            <label class="form-label">Dados da Conta</label>
+            <label class="form-label">Dados do serviço</label>
             <div class="col-4">
               <label for="nome" class="form-label">Nome</label>
-              <input type="text" class="form-control" id="nome" name='nome' placeholder="Nome" required value={{prestador.nome}}>
+              <input type="text" class="form-control" id="nome" name='nome' placeholder="Nome" required value={{servico.nome}}>
             </div>
             <div class="col-4">
-              <label for="ramo" class="form-label">Área de atuação</label>
-              <input type="text" class="form-control" id="ramo" name='ramo' placeholder="Ramo" value={{prestador.ramo}} required>
+              <label for="descricao" class="form-label">Descrição</label>
+              <input type="text" class="form-control" id="descricao" name='descricao' placeholder="Descrição" value={{servico.descricao}} required>
             </div>
             <div class="col-4">
-              <label for="whatsapp" class="form-label">Whatsapp</label>
-              <input type="text" class="form-control" id="whatsapp" name='whatsapp' placeholder="Whatsapp" value={{prestador.whatsapp}} required>
-              <div id="phoneNumberHelp" class="form-text">
-                Digite com o seguinte formato: (**) ****-****
-              </div>
-            </div>
-            <div class="input-group mb-3">
-              <input type="file" class="form-control" id="foto_perfil" name='id_foto_perfil' value='{{prestador.foto_perfil}}' required>
-              <label class="input-group-text" for="foto_perfil">Foto perfil</label>
+              <label for="preco" class="form-label">Preço</label>
+              <input type="number" class="form-control" id="preco" name='preco' placeholder="Preço" value={{servico.preco}} required>
             </div>
             <div class="col-10">
               
