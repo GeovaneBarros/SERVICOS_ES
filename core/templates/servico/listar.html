@@ -6,7 +6,31 @@
 
 
 <section class="py-5">
-
+  <div class='container mt-5'>
+    <form method="get">
+      <div class='row'>
+        <div class='col col-sm-12 col-md-4'>
+          <label for="nomeFilter" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="nomeFilter" name="nome_filter" placeholder="Nome">
+        </div>
+        <div class="col col-sm-12 col-md-4">
+          <label for="preco" class="form-label">Preço médio</label>
+          <input type="number" class="form-control" id="precoFilter" name="preco_filter" placeholder="Preço">
+        </div>
+        <div class="col col-sm-12 col-md-4">
+          <label for="cidadeFilter" class="form-label">Cidade</label>
+          <input type="text" class="form-control" id="cidadeFilter" name="cidade_filter" placeholder="Cidade">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col sm-12 lg-5">
+          <button type="submit" class="btn btn-outline-dark mt-3">Filtrar</button>
+          <button type="reset" class="btn btn-outline-dark mt-3">Limpar campos</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  
   <div class="container px-4 px-lg-5 mt-5">
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
       {% for servico in servicos %}
@@ -25,15 +49,12 @@
           </div>
           <!-- Product actions-->
           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-            <div class="text-center"><a class="btn btn-outline-dark mt-auto"
-                href="{% url 'prestador_detail_view' servico.id %}">Veja mais detalhes</a>
-                <a class="btn btn-outline-dark mt-2"
-                href="{% url 'prestador_detail_view' servico.id %}">Chamar no zap</a>
+            <div class="text-center">              <a class="btn btn-outline-dark mt-2" href="https://api.whatsapp.com/send?phone=+55{{servico.prestador.whatsapp}}">Chamar no zap</a>
             </div>
-            
-           </div>
+
+          </div>
         </div>
-        
+
       </div>
       {% endfor%}
     </div>

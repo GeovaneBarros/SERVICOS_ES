@@ -90,6 +90,49 @@ class EnderecoCreateView(CreateView):
         form.save()
         return redirect(self.success_url)
 
+def endereco_filter(data, cidade):
+    users = Endereco.objects.all().filter(cidade__icontains=cidade)
+    usuarios = []
+    for i in users:
+        usuarios.append(i.user)
+    data = data.filter(user__in=usuarios)
+    return data
+
+def endereco_filter_servico(data, cidade):
+    users = Endereco.objects.all().filter(cidade__icontains=cidade)
+    usuarios = []
+    for i in users:
+        usuarios.append(i.user)
+    prestadores = Prestador.objects.all().filter(user__in=usuarios)
+    data = data.filter(prestador__in=prestadores)
+    return data
+
+def filtragem_prestador(prestadores, query):
+    nome = query['nome_filter']
+    area = query['area_filter']
+    if nome != '':
+        prestadores = prestadores.filter(nome__icontains=nome)
+    if area != '':
+        prestadores = prestadores.filter(ramo__icontains=area)
+    cidade = query['cidade_filter']
+    if cidade != '':
+        prestadores = endereco_filter(prestadores, cidade)
+    return prestadores
+
+def filtragem_servico(servicos, query):
+    nome = query['nome_filter']
+    preco = query['preco_filter']
+    if nome != '':
+        servicos = servicos.filter(nome__icontains=nome)
+    if preco != '':
+        preco_min = float(preco)*0.8
+        preco_max = float(preco)*1.2
+        servicos = servicos.filter(preco__lte=preco_max, preco__gte=preco_min)
+    cidade = query['cidade_filter']
+    if cidade != '':
+        servicos = endereco_filter_servico(servicos, cidade)
+    return servicos
+
 class PrestadorListView(ListView):
     model = Prestador
     template_name = './prestador/listar.html'
@@ -97,7 +140,11 @@ class PrestadorListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['prestadores'] = Prestador.objects.all() 
+        query = self.request.GET.dict()
+        prestadores = Prestador.objects.all()
+        if query:
+            prestadores = filtragem_prestador(prestadores, query)            
+        context['prestadores'] =  prestadores
         return context
 
 @method_decorator(login_required(login_url='login_view'), name='dispatch')
@@ -114,7 +161,11 @@ class ServicoListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['servicos'] = Servico.objects.all() 
+        query = self.request.GET.dict()
+        servicos = Servico.objects.all() 
+        if query:
+            servicos = filtragem_servico(servicos, query)
+        context['servicos'] = servicos
         return context
 
 class ServicoDetailView(DetailView):
